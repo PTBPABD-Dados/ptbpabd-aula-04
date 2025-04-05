@@ -96,3 +96,45 @@ JOIN takes AS t ON st.id = t.id
 JOIN section AS s ON t.course_id = s.course_id and t.sec_id = s.sec_id
 join course as c on s.course_id = c.course_id
 
+
+
+-- questão 5: Crie uma view a partir do resultado da Questão 4 com o nome “coeficiente_rendimento”.
+create view coeficiente_rendimento as 
+SELECT 
+    st.id, 
+    st.name, 
+    c.title,
+    st.dept_name, 
+    t.grade,
+    (CASE
+        WHEN t.grade = 'A+' THEN 4.0
+        WHEN t.grade = 'A'  THEN 3.7
+        WHEN t.grade = 'A-' THEN 3.4
+        WHEN t.grade = 'B+' THEN 3.1
+        WHEN t.grade = 'B'  THEN 2.8
+        WHEN t.grade = 'B-' THEN 2.5
+        WHEN t.grade = 'C+' THEN 2.0
+        WHEN t.grade = 'C'  THEN 1.7
+        WHEN t.grade = 'C-' THEN 1.4
+        ELSE 0.0
+    END) AS points,
+    c.credits,
+   (CASE
+        WHEN t.grade = 'A+' THEN 4.0
+        WHEN t.grade = 'A'  THEN 3.7
+        WHEN t.grade = 'A-' THEN 3.4
+        WHEN t.grade = 'B+' THEN 3.1
+        WHEN t.grade = 'B'  THEN 2.8
+        WHEN t.grade = 'B-' THEN 2.5
+        WHEN t.grade = 'C+' THEN 2.0
+        WHEN t.grade = 'C'  THEN 1.7
+        WHEN t.grade = 'C-' THEN 1.4
+        ELSE 0.0
+    END * c.credits) AS pontos_totais
+FROM student AS st
+JOIN takes AS t ON st.id = t.id
+JOIN section AS s ON t.course_id = s.course_id and t.sec_id = s.sec_id
+join course as c on s.course_id = c.course_id
+
+select * from coeficiente_rendimento
+
